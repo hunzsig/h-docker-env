@@ -2,42 +2,124 @@ version: "2.0"
 
 services:
 
-  php:
+  php-5.6:
+    restart: always
     image: php:5.6-fpm
+    container_name: php5.6
+    hostname: php5.6
+    ports:
+      - 9056:9000
     volumes:
       - .:/app
+  php-7.0:
+    restart: always
+    image: php:7.0-fpm
+    container_name: php7.0
+    hostname: php7.0
+    ports:
+      - 9070:9000
+    volumes:
+      - .:/app
+  php-7.1:
+    restart: always
+    image: php:7.1-fpm
+    container_name: php7.1
+    hostname: php7.1
+    ports:
+      - 9073:9000
+    volumes:
+      - .:/app
+  php-7.2:
+    restart: always
+    image: php:7.2-fpm
+    container_name: php7.2
+    hostname: php7.2
+    ports:
+      - 9072:9000
+    volumes:
+      - .:/app
+  php-7.3:
+    restart: always
+    image: php:7.3-fpm
+    container_name: php7.3
+    hostname: php7.3
+    ports:
+      - 9073:9000
+    volumes:
+      - .:/app
+
+
   nginx:
     restart: always
     image: nginx
     container_name: nginx
     hostname: nginx
     ports:
-      - 90:80
-      - 443:443
+      - 2002:2002
+      - 19001:19001
     volumes:
-      - /Volumes/hunzsig-apfs/Web/workSpace/hunzsigGithub/docker/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /Volumes/hunzsig-apfs/Web/workSpace/hunzsigGithub/docker/log/nginx:/var/log/nginx
-      - /Volumes/hunzsig-apfs/Web/workSpace/hunzsigGithub/docker/www:/var/www
+      - ${WORD_PWD}/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ${WORD_PWD}/log/nginx:/var/log/nginx
+      - ${WORD_PWD}/www:/var/www
+
+
+  mysql-master:
+    restart: always
+    image: mysql:8.0
+    container_name: mysql-master
+    hostname: mysql-master
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
+    ports:
+      - ${MYSQL_MASTER_PORT}:3306
+    expose:
+      - ${MYSQL_MASTER_PORT}
+    volumes:
+      - ${WORD_PWD}/etc/mysql/master/data:/var/lib/mysql
+    command: [
+      "--log-bin=mysql-bin",
+      "--server-id=${MYSQL_MASTER_SERVER_ID}",
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci",
+      "--innodb_flush_log_at_trx_commit=1",
+      "--sync_binlog=1"
+    ]
+  mysql-slave-1:
+    restart: always
+    image: mysql:8.0
+    container_name: mysql-slave-1
+    hostname: mysql-slave-1
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_SLAVE_1_ROOT_PWD}
+      - MASTER_MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
+    ports:
+      - ${MYSQL_SLAVE_1_PORT}:3306
+    depends_on:
+      - mysql-master
+    volumes:
+      - ${WORD_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
+    command: [
+      "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci",
+    ]
+
+
+  pgsql:
+    restart: always
+    image: postgres:10.10
+    container_name: pgsql
+    hostname: pgsql
+    ports:
+      - ${PGSQL_PORT}:5432
+    volumes:
+      - ${WORD_PWD}/etc/pgsql/data:/var/lib/postgresql/data
+
+
   redis:
     restart: always
     image: redis
     container_name: redis
     hostname: redis
     ports:
-      - 6379:6379
-  mysql:
-    image: mysql:8.0
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-    ports:
-      - 3306:3306
-    volumes:
-      - /Volumes/hunzsig-apfs/Web/workSpace/hunzsigGithub/docker/etc/mysql/data:/var/lib/mysql
-  pgsql:
-    image: postgres:10.10
-    container_name: pgsql
-    hostname: pgsql
-    ports:
-      - 5432:5432
-    volumes:
-      - /Volumes/hunzsig-apfs/Web/workSpace/hunzsigGithub/docker/etc/pgsql/data:/var/lib/postgresql/data
+      - ${REDIS_PORT}:6379
