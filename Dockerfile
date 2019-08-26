@@ -8,4 +8,4 @@ RUN apt-get update \
 # 镜像信息
 LABEL Author="hunzsig"
 LABEL Version="2019.8"
-LABEL Description="centos"
+LABEL Description="docker-env"
