@@ -26,7 +26,7 @@ services:
     container_name: php7.1
     hostname: php7.1
     ports:
-      - 9073:9000
+      - 9071:9000
     volumes:
       - .:/app
   php-7.2:
@@ -57,6 +57,12 @@ services:
     ports:
       - 2002:2002
       - 19001:19001
+    depends_on:
+      - php-5.6
+      - php-7.0
+      - php-7.1
+      - php-7.2
+      - php-7.3
     volumes:
       - ${WORD_PWD}/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ${WORD_PWD}/log/nginx:/var/log/nginx
