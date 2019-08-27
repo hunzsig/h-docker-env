@@ -8,9 +8,9 @@ services:
     container_name: php-5.6
     hostname: php-5.6
     ports:
-      - 9056:9056
+      - 9056:9000
     volumes:
-      - .:/app
+      - ${WORD_PWD}/www:/application
 #  php-7.0:
 #    restart: always
 #    image: php:7.0-fpm
@@ -39,18 +39,19 @@ services:
 #    volumes:
 #      - .:/app
   php-7.3:
+    build: ./images/php-7.3
     restart: always
-    image: php:7.3-fpm
     container_name: php-7.3
     hostname: php-7.3
     ports:
       - 9073:9000
     volumes:
       - .:/app
-      - ${WORD_PWD}/www:/var/www
+      - ${WORD_PWD}/www:/application
 
 
   nginx:
+    build: ./images/nginx
     restart: always
     image: nginx
     container_name: nginx
@@ -68,50 +69,50 @@ services:
       - ${WORD_PWD}/www:/var/www
 
 
-  mysql-master:
-    restart: always
-    image: mysql:8.0
-    container_name: mysql-master
-    hostname: mysql-master
-    environment:
-      - TZ=Asia/Shanghai
-      - MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
-    ports:
-      - ${MYSQL_MASTER_PORT}:3306
-    expose:
-      - ${MYSQL_MASTER_PORT}
-    volumes:
-      - ${WORD_PWD}/etc/mysql/master/my.cnf:/etc/mysql/my.cnf
-      - ${WORD_PWD}/etc/mysql/master/data:/var/lib/mysql
-    command: [
-      "--log-bin=mysql-bin",
-      "--server-id=${MYSQL_MASTER_SERVER_ID}",
-      "--character-set-server=utf8mb4",
-      "--collation-server=utf8mb4_unicode_ci",
-      "--innodb_flush_log_at_trx_commit=1",
-      "--sync_binlog=1",
-    ]
-  mysql-slave-1:
-    restart: always
-    image: mysql:8.0
-    container_name: mysql-slave-1
-    hostname: mysql-slave-1
-    environment:
-      - TZ=Asia/Shanghai
-      - MYSQL_ROOT_PASSWORD=${MYSQL_SLAVE_1_ROOT_PWD}
-      - MASTER_MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
-    ports:
-      - ${MYSQL_SLAVE_1_PORT}:3306
-    depends_on:
-      - mysql-master
-    volumes:
-      - ${WORD_PWD}/etc/mysql/slave_1/my.cnf:/etc/mysql/my.cnf
-      - ${WORD_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
-    command: [
-      "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
-      "--character-set-server=utf8mb4",
-      "--collation-server=utf8mb4_unicode_ci",
-    ]
+#  mysql-master:
+#    restart: always
+#    image: mysql:8.0
+#    container_name: mysql-master
+#    hostname: mysql-master
+#    environment:
+#      - TZ=Asia/Shanghai
+#      - MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
+#    ports:
+#      - ${MYSQL_MASTER_PORT}:3306
+#    expose:
+#      - ${MYSQL_MASTER_PORT}
+#    volumes:
+#      - ${WORD_PWD}/etc/mysql/master/my.cnf:/etc/mysql/my.cnf
+#      - ${WORD_PWD}/etc/mysql/master/data:/var/lib/mysql
+#    command: [
+#      "--log-bin=mysql-bin",
+#      "--server-id=${MYSQL_MASTER_SERVER_ID}",
+#      "--character-set-server=utf8mb4",
+#      "--collation-server=utf8mb4_unicode_ci",
+#      "--innodb_flush_log_at_trx_commit=1",
+#      "--sync_binlog=1",
+#    ]
+#  mysql-slave-1:
+#    restart: always
+#    image: mysql:8.0
+#    container_name: mysql-slave-1
+#    hostname: mysql-slave-1
+#    environment:
+#      - TZ=Asia/Shanghai
+#      - MYSQL_ROOT_PASSWORD=${MYSQL_SLAVE_1_ROOT_PWD}
+#      - MASTER_MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
+#    ports:
+#      - ${MYSQL_SLAVE_1_PORT}:3306
+#    depends_on:
+#      - mysql-master
+#    volumes:
+#      - ${WORD_PWD}/etc/mysql/slave_1/my.cnf:/etc/mysql/my.cnf
+#      - ${WORD_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
+#    command: [
+#      "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
+#      "--character-set-server=utf8mb4",
+#      "--collation-server=utf8mb4_unicode_ci",
+#    ]
 
 
 #  pgsql:
@@ -125,10 +126,10 @@ services:
 #      - ${WORD_PWD}/etc/pgsql/data:/var/lib/postgresql/data
 
 
-  redis:
-    restart: always
-    image: redis
-    container_name: redis
-    hostname: redis
-    ports:
-      - ${REDIS_PORT}:6379
+#  redis:
+#    restart: always
+#    image: redis
+#    container_name: redis
+#    hostname: redis
+#    ports:
+#      - ${REDIS_PORT}:6379
