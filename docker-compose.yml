@@ -10,7 +10,7 @@ services:
     ports:
       - 9056:9000
     volumes:
-      - ${WORD_PWD}/www:/application
+      - ${WORD_PWD}/www:/var/www
 #  php-7.0:
 #    restart: always
 #    image: php:7.0-fpm
@@ -47,7 +47,7 @@ services:
       - 9073:9000
     volumes:
       - .:/app
-      - ${WORD_PWD}/www:/application
+      - ${WORD_PWD}/www:/var/www
 
 
   nginx:
