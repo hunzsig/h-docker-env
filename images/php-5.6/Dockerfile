@@ -35,9 +35,9 @@ RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pdo_sqlite
 
-RUN pecl install igbinary
-RUN pecl install redis
-RUN pecl install lzf
+RUN pecl install http://pecl.php.net/get/igbinary-2.0.7.tgz
+RUN pecl install http://pecl.php.net/get/redis-2.2.8.tgz
+RUN pecl install http://pecl.php.net/get/LZF-1.6.6.tgz
 RUN pecl install mongo
 RUN pecl install mongodb
 RUN pecl install amqp

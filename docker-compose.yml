@@ -4,7 +4,7 @@ services:
 
   php-5.6:
     restart: always
-    image: php:5.6-fpm
+    build: ./images/php-5.6
     container_name: php-5.6
     hostname: php-5.6
     ports:
@@ -38,39 +38,39 @@ services:
 #      - 9072:9000
 #    volumes:
 #      - .:/app
-  php-7.3:
-    restart: always
-    build: ./images/php-7.3
-    container_name: php-7.3
-    hostname: php-7.3
-    ports:
-      - 9073:9000
-    volumes:
-      - .:/app
-      - ${WORD_PWD}/www:/var/www
-
-
-  nginx:
-    restart: always
-    build: ./images/nginx
-    container_name: nginx
-    hostname: nginx
-    ports:
-      - 8080:80
-      - 2002:2002
-      - 19001:19001
-    depends_on:
-      - php-5.6
-      - php-7.3
-    volumes:
-      - ${WORD_PWD}/etc/nginx:/etc/nginx
-      - ${WORD_PWD}/log/nginx:/var/log/nginx
-      - ${WORD_PWD}/www:/var/www
-
-
+#  php-7.3:
+#    restart: always
+#    build: ./images/php-7.3
+#    container_name: php-7.3
+#    hostname: php-7.3
+#    ports:
+#      - 9073:9000
+#    volumes:
+#      - .:/app
+#      - ${WORD_PWD}/www:/var/www
+#
+#
+#  nginx:
+#    restart: always
+#    build: ./images/nginx
+#    container_name: nginx
+#    hostname: nginx
+#    ports:
+#      - 8080:80
+#      - 2002:2002
+#      - 19001:19001
+##    depends_on:
+##      - php-5.6
+##      - php-7.3
+#    volumes:
+#      - ${WORD_PWD}/etc/nginx:/etc/nginx
+#      - ${WORD_PWD}/log/nginx:/var/log/nginx
+#      - ${WORD_PWD}/www:/var/www
+#
+#
 #  mysql-master:
 #    restart: always
-#    image: mysql:8.0
+#    build: ./images/mysql
 #    container_name: mysql-master
 #    hostname: mysql-master
 #    environment:
@@ -93,7 +93,7 @@ services:
 #    ]
 #  mysql-slave-1:
 #    restart: always
-#    image: mysql:8.0
+#    build: ./images/mysql
 #    container_name: mysql-slave-1
 #    hostname: mysql-slave-1
 #    environment:
@@ -112,7 +112,24 @@ services:
 #      "--character-set-server=utf8mb4",
 #      "--collation-server=utf8mb4_unicode_ci",
 #    ]
-
+##
+##  pgsql:
+##    restart: always
+##    image: postgres:10.10
+##    container_name: pgsql
+##    hostname: pgsql
+##    ports:
+##      - ${PGSQL_PORT}:5432
+##    volumes:
+##      - ${WORD_PWD}/etc/pgsql/master/data:/var/lib/postgresql/data
+##
+#  redis:
+#    restart: always
+#    build: ./images/redis
+#    container_name: redis
+#    hostname: redis
+#    ports:
+#      - ${REDIS_PORT}:6379
 
 #  mongo-master:
 #    image: mongo
@@ -126,22 +143,3 @@ services:
 #      - ${WORD_PWD}/etc/mongodb/master/access.key:/etc/access.key
 #    command: mongod -f /etc/mongo.conf
 
-
-#  pgsql:
-#    restart: always
-#    image: postgres:10.10
-#    container_name: pgsql
-#    hostname: pgsql
-#    ports:
-#      - ${PGSQL_PORT}:5432
-#    volumes:
-#      - ${WORD_PWD}/etc/pgsql/master/data:/var/lib/postgresql/data
-
-
-#  redis:
-#    restart: always
-#    image: redis
-#    container_name: redis
-#    hostname: redis
-#    ports:
-#      - ${REDIS_PORT}:6379
