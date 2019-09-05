@@ -39,8 +39,8 @@ services:
 #    volumes:
 #      - .:/app
   php-7.3:
-    build: ./images/php-7.3
     restart: always
+    build: ./images/php-7.3
     container_name: php-7.3
     hostname: php-7.3
     ports:
@@ -51,9 +51,8 @@ services:
 
 
   nginx:
-    build: ./images/nginx
     restart: always
-    image: nginx
+    build: ./images/nginx
     container_name: nginx
     hostname: nginx
     ports:
