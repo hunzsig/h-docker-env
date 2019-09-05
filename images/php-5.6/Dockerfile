@@ -40,7 +40,7 @@ RUN pecl install http://pecl.php.net/get/redis-2.2.8.tgz
 RUN pecl install http://pecl.php.net/get/LZF-1.6.6.tgz
 RUN pecl install http://pecl.php.net/get/mongo-1.6.16.tgz
 RUN pecl install http://pecl.php.net/get/mongodb-1.5.3.tgz
-RUN pecl install http://pecl.php.net/get/amqp-1.4.0.tgz
+RUN pecl install http://pecl.php.net/get/amqp-1.6.0.tgz
 RUN pecl install http://pecl.php.net/get/swoole-2.0.11.tgz
 
 RUN docker-php-ext-enable \
