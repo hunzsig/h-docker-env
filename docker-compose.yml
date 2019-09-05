@@ -115,6 +115,19 @@ services:
 #    ]
 
 
+#  mongo-master:
+#    image: mongo
+#    expose:
+#      - 27017
+#    ports:
+#      - 27017:27017
+#    volumes:
+#      - ${WORD_PWD}/etc/mongodb/master:/data/db
+#      - ${WORD_PWD}/etc/mongodb/master/mongo.conf:/etc/mongo.conf
+#      - ${WORD_PWD}/etc/mongodb/master/access.key:/etc/access.key
+#    command: mongod -f /etc/mongo.conf
+
+
 #  pgsql:
 #    restart: always
 #    image: postgres:10.10
@@ -123,7 +136,7 @@ services:
 #    ports:
 #      - ${PGSQL_PORT}:5432
 #    volumes:
-#      - ${WORD_PWD}/etc/pgsql/data:/var/lib/postgresql/data
+#      - ${WORD_PWD}/etc/pgsql/master/data:/var/lib/postgresql/data
 
 
 #  redis:
