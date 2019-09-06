@@ -39,7 +39,7 @@ RUN pecl install http://pecl.php.net/get/igbinary-2.0.8.tgz
 RUN pecl install http://pecl.php.net/get/redis-4.2.0.tgz
 RUN pecl install http://pecl.php.net/get/LZF-1.6.6.tgz
 RUN pecl install http://pecl.php.net/get/mongodb-1.5.3.tgz
-RUN pecl install http://pecl.php.net/get/amqp-1.9.3.tgz
+RUN pecl install http://pecl.php.net/get/amqp-1.7.1.tgz
 RUN pecl install http://pecl.php.net/get/swoole-4.3.5.tgz
 
 RUN docker-php-ext-enable \
