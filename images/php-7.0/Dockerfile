@@ -35,12 +35,12 @@ RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pdo_sqlite
 
-RUN pecl install http://pecl.php.net/get/igbinary-3.0.1.tgz
-RUN pecl install http://pecl.php.net/get/redis-5.0.2.tgz
-RUN pecl install http://pecl.php.net/get/LZF-1.6.7.tgz
-RUN pecl install http://pecl.php.net/get/mongodb-1.6.0RC1.tgz
-RUN pecl install http://pecl.php.net/get/amqp-1.9.4.tgz
-RUN pecl install http://pecl.php.net/get/swoole-4.4.5.tgz
+RUN pecl install http://pecl.php.net/get/igbinary-2.0.8.tgz
+RUN pecl install http://pecl.php.net/get/redis-4.2.0.tgz
+RUN pecl install http://pecl.php.net/get/LZF-1.6.6.tgz
+RUN pecl install http://pecl.php.net/get/mongodb-1.5.3.tgz
+RUN pecl install http://pecl.php.net/get/amqp-1.9.3.tgz
+RUN pecl install http://pecl.php.net/get/swoole-4.3.5.tgz
 
 RUN docker-php-ext-enable \
     bz2 gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite \
