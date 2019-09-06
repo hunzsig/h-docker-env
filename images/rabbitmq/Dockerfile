@@ -1,5 +1,5 @@
 
-FROM rabbitmq:3.8-rc-management-alpine
+FROM rabbitmq:3.8-rc-management
 
 # 镜像信息
 LABEL Author="hunzsig"
