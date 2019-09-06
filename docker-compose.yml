@@ -1,4 +1,12 @@
-version: "2.0"
+version: "3.0"
+
+networks:
+  web:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${NETWORK_WEB}
+
 
 services:
 
@@ -8,25 +16,29 @@ services:
     container_name: php-5.6
     hostname: php-5.6
     ports:
-      - 9056:9000
+      - 9000
     volumes:
-      - ${WORD_PWD}/www:/var/www
+      - ${WORKPLACE_PWD}/www:/var/www
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PHP_56}
 #  php-7.0:
 #    restart: always
 #    image: php:7.0-fpm
 #    container_name: php-7.0
 #    hostname: php-7.0
 #    ports:
-#      - 9070:9000
+#      - 9000
 #    volumes:
 #      - .:/app
+
 #  php-7.1:
 #    restart: always
 #    image: php:7.1-fpm
 #    container_name: php-7.1
 #    hostname: php-7.1
 #    ports:
-#      - 9071:9000
+#      - 9000
 #    volumes:
 #      - .:/app
 #  php-7.2:
@@ -35,7 +47,7 @@ services:
 #    container_name: php-7.2
 #    hostname: php-7.2
 #    ports:
-#      - 9072:9000
+#      - 9000
 #    volumes:
 #      - .:/app
   php-7.3:
@@ -44,9 +56,12 @@ services:
     container_name: php-7.3
     hostname: php-7.3
     ports:
-      - 9073:9000
+      - 9000
     volumes:
-      - ${WORD_PWD}/www:/var/www
+      - ${WORKPLACE_PWD}/www:/var/www
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PHP_73}
 
 
   nginx:
@@ -58,60 +73,78 @@ services:
       - 8080:80
       - 2002:2002
       - 19001:19001
-    depends_on:
-      - php-5.6
-#      - php-7.3
     volumes:
-      - ${WORD_PWD}/etc/nginx:/etc/nginx
-      - ${WORD_PWD}/log/nginx:/var/log/nginx
-      - ${WORD_PWD}/www:/var/www
-#
-#
-#  mysql-master:
-#    restart: always
-#    build: ./images/mysql
-#    container_name: mysql-master
-#    hostname: mysql-master
-#    environment:
-#      - TZ=Asia/Shanghai
-#      - MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
-#    ports:
-#      - ${MYSQL_MASTER_PORT}:3306
-#    expose:
-#      - ${MYSQL_MASTER_PORT}
-#    volumes:
-#      - ${WORD_PWD}/etc/mysql/master/my.cnf:/etc/mysql/my.cnf
-#      - ${WORD_PWD}/etc/mysql/master/data:/var/lib/mysql
-#    command: [
-#      "--log-bin=mysql-bin",
-#      "--server-id=${MYSQL_MASTER_SERVER_ID}",
-#      "--character-set-server=utf8mb4",
-#      "--collation-server=utf8mb4_unicode_ci",
-#      "--innodb_flush_log_at_trx_commit=1",
-#      "--sync_binlog=1",
-#    ]
-#  mysql-slave-1:
-#    restart: always
-#    build: ./images/mysql
-#    container_name: mysql-slave-1
-#    hostname: mysql-slave-1
-#    environment:
-#      - TZ=Asia/Shanghai
-#      - MYSQL_ROOT_PASSWORD=${MYSQL_SLAVE_1_ROOT_PWD}
-#      - MASTER_MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
-#    ports:
-#      - ${MYSQL_SLAVE_1_PORT}:3306
-#    depends_on:
-#      - mysql-master
-#    volumes:
-#      - ${WORD_PWD}/etc/mysql/slave_1/my.cnf:/etc/mysql/my.cnf
-#      - ${WORD_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
-#    command: [
-#      "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
-#      "--character-set-server=utf8mb4",
-#      "--collation-server=utf8mb4_unicode_ci",
-#    ]
-##
+      - ${DOCKER_ENV_PWD}/etc/nginx:/etc/nginx
+      - ${DOCKER_ENV_PWD}/log/nginx:/var/log/nginx
+      - ${WORKPLACE_PWD}/www:/var/www
+    networks:
+      web:
+        ipv4_address: ${NETWORK_NGINX}
+
+
+  redis:
+    restart: always
+    build: ./images/redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - ${REDIS_PORT}:6379
+    networks:
+      web:
+        ipv4_address: ${NETWORK_REDIS}
+
+
+  mysql-master:
+    restart: always
+    build: ./images/mysql
+    container_name: mysql-master
+    hostname: mysql-master
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
+    ports:
+      - ${MYSQL_MASTER_PORT}:3306
+    expose:
+      - ${MYSQL_MASTER_PORT}
+    volumes:
+      - ${DOCKER_ENV_PWD}/etc/mysql/master/my.cnf:/etc/mysql/my.cnf
+      - ${DOCKER_ENV_PWD}/etc/mysql/master/data:/var/lib/mysql
+    command: [
+      "--log-bin=mysql-bin",
+      "--server-id=${MYSQL_MASTER_SERVER_ID}",
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci",
+      "--innodb_flush_log_at_trx_commit=1",
+      "--sync_binlog=1",
+    ]
+    networks:
+      web:
+        ipv4_address: ${NETWORK_MYSQL_MASTER}
+  mysql-slave-1:
+    restart: always
+    build: ./images/mysql
+    container_name: mysql-slave-1
+    hostname: mysql-slave-1
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=${MYSQL_SLAVE_1_ROOT_PWD}
+      - MASTER_MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
+    ports:
+      - ${MYSQL_SLAVE_1_PORT}:3306
+    depends_on:
+      - mysql-master
+    volumes:
+      - ${DOCKER_ENV_PWD}/etc/mysql/slave_1/my.cnf:/etc/mysql/my.cnf
+      - ${DOCKER_ENV_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
+    command: [
+      "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci",
+    ]
+    networks:
+      web:
+        ipv4_address: ${NETWORK_MYSQL_SLAVE_1}
+
 ##  pgsql:
 ##    restart: always
 ##    image: postgres:10.10
@@ -120,15 +153,8 @@ services:
 ##    ports:
 ##      - ${PGSQL_PORT}:5432
 ##    volumes:
-##      - ${WORD_PWD}/etc/pgsql/master/data:/var/lib/postgresql/data
-##
-#  redis:
-#    restart: always
-#    build: ./images/redis
-#    container_name: redis
-#    hostname: redis
-#    ports:
-#      - ${REDIS_PORT}:6379
+##      - ${DOCKER_ENV_PWD}/etc/pgsql/master/data:/var/lib/postgresql/data
+
 
 #  mongo-master:
 #    image: mongo
@@ -137,8 +163,8 @@ services:
 #    ports:
 #      - 27017:27017
 #    volumes:
-#      - ${WORD_PWD}/etc/mongodb/master:/data/db
-#      - ${WORD_PWD}/etc/mongodb/master/mongo.conf:/etc/mongo.conf
-#      - ${WORD_PWD}/etc/mongodb/master/access.key:/etc/access.key
+#      - ${DOCKER_ENV_PWD}/etc/mongodb/master:/data/db
+#      - ${DOCKER_ENV_PWD}/etc/mongodb/master/mongo.conf:/etc/mongo.conf
+#      - ${DOCKER_ENV_PWD}/etc/mongodb/master/access.key:/etc/access.key
 #    command: mongod -f /etc/mongo.conf
 
