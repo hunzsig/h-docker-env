@@ -1,2 +1,3 @@
 vhost.d/*
 !vhost.d/default.conf
+!vhost.d/example.conf
