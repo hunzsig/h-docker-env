@@ -26,6 +26,7 @@ RUN apt-get -y install \
 
 
 RUN docker-php-ext-install bz2
+RUN docker-php-ext-install bcmath
 RUN docker-php-ext-install gd
 RUN docker-php-ext-install xmlrpc
 RUN docker-php-ext-install sockets
@@ -44,7 +45,7 @@ RUN pecl install http://pecl.php.net/get/amqp-1.6.0.tgz
 RUN pecl install http://pecl.php.net/get/swoole-2.0.11.tgz
 
 RUN docker-php-ext-enable \
-    bz2 gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite \
+    bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite \
     igbinary redis lzf mongo mongodb amqp swoole
 
 # 镜像信息

@@ -22,36 +22,42 @@ services:
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_56}
-  php-7.0:
-    restart: always
-    build: ./images/php-7.0
-    container_name: php-7.0
-    hostname: php-7.0
-    ports:
-      - 9000
-    volumes:
-      - ${WORKPLACE_PWD}:/var/www
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PHP_70}
+#  php-7.0:
+#    restart: always
+#    build: ./images/php-7.0
+#    container_name: php-7.0
+#    hostname: php-7.0
+#    ports:
+#      - 9000
+#    volumes:
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_70}
 #  php-7.1:
 #    restart: always
-#    image: php:7.1-fpm
+#    build: ./images/php-7.1
 #    container_name: php-7.1
 #    hostname: php-7.1
 #    ports:
 #      - 9000
 #    volumes:
-#      - .:/app
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_71}
 #  php-7.2:
 #    restart: always
-#    image: php:7.2-fpm
+#    build: ./images/php-7.2
 #    container_name: php-7.2
 #    hostname: php-7.2
 #    ports:
 #      - 9000
 #    volumes:
-#      - .:/app
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_72}
   php-7.3:
     restart: always
     build: ./images/php-7.3
@@ -95,6 +101,17 @@ services:
       web:
         ipv4_address: ${NETWORK_REDIS}
 
+  rabbitmq:
+    restart: always
+    build: ./images/rabbitmq
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - ${RABBITMQ_PORT}:5672
+      - 1${RABBITMQ_PORT}:15672
+    networks:
+      web:
+        ipv4_address: ${NETWORK_RABBITMQ}
 
   mysql-master:
     restart: always
