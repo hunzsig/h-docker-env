@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3.3"
 
 networks:
   web:
@@ -10,18 +10,18 @@ networks:
 
 services:
 
-  php-5.6:
-    restart: always
-    build: ./images/php-5.6
-    container_name: php-5.6
-    hostname: php-5.6
-    ports:
-      - 9000
-    volumes:
-      - ${WORKPLACE_PWD}:/var/www
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PHP_56}
+#  php-5.6:
+#    restart: always
+#    build: ./images/php-5.6
+#    container_name: php-5.6
+#    hostname: php-5.6
+#    ports:
+#      - 9000
+#    volumes:
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_56}
 #  php-7.0:
 #    restart: always
 #    build: ./images/php-7.0
@@ -79,8 +79,9 @@ services:
     hostname: nginx
     ports:
       - 8080:80
-      - 2002:2002
-      - 9001:9001
+      - 2001:2001
+      - 3001:3001
+      - 3002:3002
     volumes:
       - ${DOCKER_ENV_PWD}/etc/nginx:/etc/nginx
       - ${DOCKER_ENV_PWD}/log/nginx:/var/log/nginx
@@ -106,6 +107,9 @@ services:
     build: ./images/rabbitmq
     container_name: rabbitmq
     hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PWD}
     ports:
       - ${RABBITMQ_PORT}:5672
       - 1${RABBITMQ_PORT}:15672
@@ -113,7 +117,7 @@ services:
       web:
         ipv4_address: ${NETWORK_RABBITMQ}
 
-  mysql-master:
+  mysql-master: &mysql-master
     restart: always
     build: ./images/mysql
     container_name: mysql-master
@@ -126,7 +130,6 @@ services:
     expose:
       - ${MYSQL_MASTER_PORT}
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/mysql/master/my.cnf:/etc/mysql/my.cnf
       - ${DOCKER_ENV_PWD}/etc/mysql/master/data:/var/lib/mysql
     command: [
       "--log-bin=mysql-bin",
@@ -134,12 +137,14 @@ services:
       "--character-set-server=utf8mb4",
       "--collation-server=utf8mb4_unicode_ci",
       "--innodb_flush_log_at_trx_commit=1",
+      "--default_authentication_plugin=mysql_native_password",
       "--sync_binlog=1",
     ]
     networks:
       web:
         ipv4_address: ${NETWORK_MYSQL_MASTER}
-  mysql-slave-1:
+  mysql-slave-1: &mysql-slave-1
+    <<: *mysql-master
     restart: always
     build: ./images/mysql
     container_name: mysql-slave-1
@@ -153,12 +158,12 @@ services:
     depends_on:
       - mysql-master
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/mysql/slave_1/my.cnf:/etc/mysql/my.cnf
       - ${DOCKER_ENV_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
     command: [
       "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
       "--character-set-server=utf8mb4",
       "--collation-server=utf8mb4_unicode_ci",
+      "--default_authentication_plugin=mysql_native_password",
     ]
     networks:
       web:
