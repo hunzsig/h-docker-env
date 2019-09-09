@@ -10,54 +10,54 @@ networks:
 
 services:
 
-#  php-5.6:
-#    restart: always
-#    build: ./images/php-5.6
-#    container_name: php-5.6
-#    hostname: php-5.6
-#    ports:
-#      - 9000
-#    volumes:
-#      - ${WORKPLACE_PWD}:/var/www
-#    networks:
-#      web:
-#        ipv4_address: ${NETWORK_PHP_56}
-#  php-7.0:
-#    restart: always
-#    build: ./images/php-7.0
-#    container_name: php-7.0
-#    hostname: php-7.0
-#    ports:
-#      - 9000
-#    volumes:
-#      - ${WORKPLACE_PWD}:/var/www
-#    networks:
-#      web:
-#        ipv4_address: ${NETWORK_PHP_70}
-#  php-7.1:
-#    restart: always
-#    build: ./images/php-7.1
-#    container_name: php-7.1
-#    hostname: php-7.1
-#    ports:
-#      - 9000
-#    volumes:
-#      - ${WORKPLACE_PWD}:/var/www
-#    networks:
-#      web:
-#        ipv4_address: ${NETWORK_PHP_71}
-#  php-7.2:
-#    restart: always
-#    build: ./images/php-7.2
-#    container_name: php-7.2
-#    hostname: php-7.2
-#    ports:
-#      - 9000
-#    volumes:
-#      - ${WORKPLACE_PWD}:/var/www
-#    networks:
-#      web:
-#        ipv4_address: ${NETWORK_PHP_72}
+  php-5.6:
+    restart: always
+    build: ./images/php-5.6
+    container_name: php-5.6
+    hostname: php-5.6
+    ports:
+      - 9000
+    volumes:
+      - ${WORKPLACE_PWD}:/var/www
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PHP_56}
+  php-7.0:
+    restart: always
+    build: ./images/php-7.0
+    container_name: php-7.0
+    hostname: php-7.0
+    ports:
+      - 9000
+    volumes:
+      - ${WORKPLACE_PWD}:/var/www
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PHP_70}
+  php-7.1:
+    restart: always
+    build: ./images/php-7.1
+    container_name: php-7.1
+    hostname: php-7.1
+    ports:
+      - 9000
+    volumes:
+      - ${WORKPLACE_PWD}:/var/www
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PHP_71}
+  php-7.2:
+    restart: always
+    build: ./images/php-7.2
+    container_name: php-7.2
+    hostname: php-7.2
+    ports:
+      - 9000
+    volumes:
+      - ${WORKPLACE_PWD}:/var/www
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PHP_72}
   php-7.3:
     restart: always
     build: ./images/php-7.3
@@ -134,6 +134,7 @@ services:
     command: [
       "--log-bin=mysql-bin",
       "--server-id=${MYSQL_MASTER_SERVER_ID}",
+      "--binlog-ignore-db=mysql",
       "--character-set-server=utf8mb4",
       "--collation-server=utf8mb4_unicode_ci",
       "--innodb_flush_log_at_trx_commit=1",
@@ -169,15 +170,18 @@ services:
       web:
         ipv4_address: ${NETWORK_MYSQL_SLAVE_1}
 
-##  pgsql:
-##    restart: always
-##    image: postgres:10.10
-##    container_name: pgsql
-##    hostname: pgsql
-##    ports:
-##      - ${PGSQL_PORT}:5432
-##    volumes:
-##      - ${DOCKER_ENV_PWD}/etc/pgsql/master/data:/var/lib/postgresql/data
+#  pgsql-master: &pgsql-master
+#    restart: always
+#    build: ./images/pgsql
+#    container_name: pgsql-master
+#    hostname: pgsql-master
+#    environment:
+#      POSTGRES_USER: hunzsig
+#      POSTGRES_PASSWORD: 123456
+#    ports:
+#      - ${PGSQL_PORT}:5432
+#    volumes:
+#      - ${DOCKER_ENV_PWD}/etc/pgsql/master/data:/var/lib/postgresql/data
 
 
 #  mongo-master:
