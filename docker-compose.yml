@@ -203,7 +203,7 @@ services:
       - ${PGSQL_ADMIN4_PORT}:80
     networks:
       web:
-#        ipv4_address: ${NETWORK_PGSQL_ADMIN4}
+  #        ipv4_address: ${NETWORK_PGSQL_ADMIN4}
 
   mongo-master: &mongo-master
     restart: always
@@ -215,8 +215,27 @@ services:
       - ${MONGO_MASTER_PORT}:27017
     volumes:
       - mongo_master_data:/data/db
-      - ${DOCKER_ENV_PWD}/etc/mongodb/master/mongo.conf:/etc/mongo.conf
-      - ${DOCKER_ENV_PWD}/etc/mongodb/master/log:/log
+      - ${DOCKER_ENV_PWD}/etc/mongo/master/mongo.conf:/etc/mongo.conf
+      - ${DOCKER_ENV_PWD}/etc/mongo/master/log:/log
+    networks:
+      web:
+        ipv4_address: ${NETWORK_MONGO_MASTER}
+
+  mongo-slave-1: &mongo-slave-1
+    <<: *mongo-master
+    restart: always
+    build: ./images/mongo
+    depends_on:
+      - mongo-master
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_SLAVE_1_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_SLAVE_1_PWD}
+    ports:
+      - ${MONGO_SLAVE_1_PORT}:27017
+    volumes:
+      - mongo_slave_1_data:/data/db
+      - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/mongo.conf:/etc/mongo.conf
+      - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/log:/log
     networks:
       web:
         ipv4_address: ${NETWORK_MONGO_MASTER}
@@ -224,3 +243,4 @@ services:
 volumes:
   postgres_master_data:
   mongo_master_data:
+  mongo_slave_1_data:
