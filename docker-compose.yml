@@ -183,9 +183,11 @@ services:
       - ${PGSQL_MASTER_PORT}:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       # - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
       # - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PGSQL_MASTER}
 
   pgadmin4:
     restart: always
@@ -197,18 +199,25 @@ services:
       PGADMIN_DEFAULT_PASSWORD: 123456
     ports:
       - ${PGSQL_ADMIN4_PORT}:80
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PGSQL_ADMIN4}
 
-#  mongo-master:
-#    build: ./images/mongo
-#    expose:
-#      - 27017
-#    ports:
-#      - 27017:27017
-#    volumes:
-#      - ${DOCKER_ENV_PWD}/etc/mongodb/master:/data/db
-#      - ${DOCKER_ENV_PWD}/etc/mongodb/master/mongo.conf:/etc/mongo.conf
-#      - ${DOCKER_ENV_PWD}/etc/mongodb/master/access.key:/etc/access.key
-#    command: mongod -f /etc/mongo.conf
+  mongo-master:
+    build: ./images/mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_MASTER_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_MASTER_PWD}
+    ports:
+      - ${MONGO_MASTER_PORT}:27017
+    volumes:
+      - ${DOCKER_ENV_PWD}/etc/mongodb/master/data:/data/db
+      - ${DOCKER_ENV_PWD}/etc/mongodb/master/mongo.conf:/etc/mongo.conf
+      - ${DOCKER_ENV_PWD}/etc/mongodb/master/access.key:/etc/access.key
+    command: mongod -f /etc/mongo.conf
+    networks:
+      web:
+        ipv4_address: ${NETWORK_MONGO_MASTER}
 
 volumes:
   postgres_data:

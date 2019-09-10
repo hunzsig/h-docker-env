@@ -1,5 +1,5 @@
 
-FROM mongo
+FROM mongo:4.2
 
 
 # 镜像信息
