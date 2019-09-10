@@ -175,14 +175,16 @@ services:
     build: ./images/pgsql
     container_name: pgsql-master
     hostname: pgsql-master
+    privileged: true
+    user: root
     environment:
       POSTGRES_USER: ${PGSQL_MASTER_USER}
       POSTGRES_PASSWORD: ${PGSQL_MASTER_PWD}
-      PGDATA: /var/lib/postgresql/data
     ports:
       - ${PGSQL_MASTER_PORT}:5432
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/pgsql/master/data:/var/lib/postgresql/data
+      - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
+      - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   pgadmin4:
     restart: always
