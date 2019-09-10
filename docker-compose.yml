@@ -7,7 +7,6 @@ networks:
       config:
         - subnet: ${NETWORK_WEB}
 
-
 services:
 
   php-5.6:
@@ -183,8 +182,10 @@ services:
     ports:
       - ${PGSQL_MASTER_PORT}:5432
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
-      - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      # - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
+      # - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   pgadmin4:
     restart: always
@@ -209,3 +210,6 @@ services:
 #      - ${DOCKER_ENV_PWD}/etc/mongodb/master/access.key:/etc/access.key
 #    command: mongod -f /etc/mongo.conf
 
+volumes:
+  postgres_data:
+    external: true

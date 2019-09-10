@@ -36,3 +36,9 @@ mysql主从
     START SLAVE;
     SHOW SLAVE STATUS;
 ```
+
+postgres:
+```
+需要创建一个卷来解决pg的目录权限问题
+docker volume create --name postgres_data
+```
