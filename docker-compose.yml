@@ -9,201 +9,202 @@ networks:
 
 services:
 
-  php-5.6:
-    restart: always
-    build: ./images/php-5.6
-    container_name: php-5.6
-    hostname: php-5.6
-    ports:
-      - 9000
-    volumes:
-      - ${WORKPLACE_PWD}:/var/www
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PHP_56}
-  php-7.0:
-    restart: always
-    build: ./images/php-7.0
-    container_name: php-7.0
-    hostname: php-7.0
-    ports:
-      - 9000
-    volumes:
-      - ${WORKPLACE_PWD}:/var/www
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PHP_70}
-  php-7.1:
-    restart: always
-    build: ./images/php-7.1
-    container_name: php-7.1
-    hostname: php-7.1
-    ports:
-      - 9000
-    volumes:
-      - ${WORKPLACE_PWD}:/var/www
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PHP_71}
-  php-7.2:
-    restart: always
-    build: ./images/php-7.2
-    container_name: php-7.2
-    hostname: php-7.2
-    ports:
-      - 9000
-    volumes:
-      - ${WORKPLACE_PWD}:/var/www
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PHP_72}
-  php-7.3:
-    restart: always
-    build: ./images/php-7.3
-    container_name: php-7.3
-    hostname: php-7.3
-    ports:
-      - 9000
-    volumes:
-      - ${WORKPLACE_PWD}:/var/www
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PHP_73}
+#  php-5.6:
+#    restart: always
+#    build: ./images/php-5.6
+#    container_name: php-5.6
+#    hostname: php-5.6
+#    ports:
+#      - 9000
+#    volumes:
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_56}
+#  php-7.0:
+#    restart: always
+#    build: ./images/php-7.0
+#    container_name: php-7.0
+#    hostname: php-7.0
+#    ports:
+#      - 9000
+#    volumes:
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_70}
+#  php-7.1:
+#    restart: always
+#    build: ./images/php-7.1
+#    container_name: php-7.1
+#    hostname: php-7.1
+#    ports:
+#      - 9000
+#    volumes:
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_71}
+#  php-7.2:
+#    restart: always
+#    build: ./images/php-7.2
+#    container_name: php-7.2
+#    hostname: php-7.2
+#    ports:
+#      - 9000
+#    volumes:
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_72}
+#  php-7.3:
+#    restart: always
+#    build: ./images/php-7.3
+#    container_name: php-7.3
+#    hostname: php-7.3
+#    ports:
+#      - 9000
+#    volumes:
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PHP_73}
+#
+#
+#  nginx:
+#    restart: always
+#    build: ./images/nginx
+#    container_name: nginx
+#    hostname: nginx
+#    ports:
+#      - 8080:80
+#      - 2001:2001
+#      - 3001:3001
+#      - 3002:3002
+#    volumes:
+#      - ${DOCKER_ENV_PWD}/etc/nginx:/etc/nginx
+#      - ${DOCKER_ENV_PWD}/etc/nginx/log:/var/log/nginx
+#      - ${WORKPLACE_PWD}:/var/www
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_NGINX}
+#
+#
+#  redis:
+#    restart: always
+#    build: ./images/redis
+#    container_name: redis
+#    hostname: redis
+#    ports:
+#      - ${REDIS_PORT}:6379
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_REDIS}
+#
+#  rabbitmq:
+#    restart: always
+#    build: ./images/rabbitmq
+#    container_name: rabbitmq
+#    hostname: rabbitmq
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+#      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PWD}
+#    ports:
+#      - ${RABBITMQ_PORT}:5672
+#      - 1${RABBITMQ_PORT}:15672
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_RABBITMQ}
+#
+#  mysql-master: &mysql-master
+#    restart: always
+#    build: ./images/mysql
+#    container_name: mysql-master
+#    hostname: mysql-master
+#    environment:
+#      - TZ=Asia/Shanghai
+#      - MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
+#    ports:
+#      - ${MYSQL_MASTER_PORT}:3306
+#    expose:
+#      - ${MYSQL_MASTER_PORT}
+#    volumes:
+#      - ${DOCKER_ENV_PWD}/etc/mysql/master/data:/var/lib/mysql
+#    command: [
+#      "--log-bin=mysql-bin",
+#      "--server-id=${MYSQL_MASTER_SERVER_ID}",
+#      "--binlog-ignore-db=mysql",
+#      "--character-set-server=utf8mb4",
+#      "--collation-server=utf8mb4_unicode_ci",
+#      "--innodb_flush_log_at_trx_commit=1",
+#      "--default_authentication_plugin=mysql_native_password",
+#      "--sync_binlog=1",
+#    ]
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_MYSQL_MASTER}
+#  mysql-slave-1: &mysql-slave-1
+#    <<: *mysql-master
+#    restart: always
+#    build: ./images/mysql
+#    container_name: mysql-slave-1
+#    hostname: mysql-slave-1
+#    environment:
+#      - TZ=Asia/Shanghai
+#      - MYSQL_ROOT_PASSWORD=${MYSQL_SLAVE_1_ROOT_PWD}
+#      - MASTER_MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
+#    ports:
+#      - ${MYSQL_SLAVE_1_PORT}:3306
+#    depends_on:
+#      - mysql-master
+#    volumes:
+#      - ${DOCKER_ENV_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
+#    command: [
+#      "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
+#      "--character-set-server=utf8mb4",
+#      "--collation-server=utf8mb4_unicode_ci",
+#      "--default_authentication_plugin=mysql_native_password",
+#    ]
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_MYSQL_SLAVE_1}
+#
+#  pgsql-master: &pgsql-master
+#    restart: always
+#    build: ./images/pgsql
+#    container_name: pgsql-master
+#    hostname: pgsql-master
+#    privileged: true
+#    user: root
+#    environment:
+#      POSTGRES_USER: ${PGSQL_MASTER_USER}
+#      POSTGRES_PASSWORD: ${PGSQL_MASTER_PWD}
+#    ports:
+#      - ${PGSQL_MASTER_PORT}:5432
+#    volumes:
+#      - postgres_master_data:/var/lib/postgresql/data
+#      # - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
+#      # - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PGSQL_MASTER}
+#
+#  pgadmin4:
+#    restart: always
+#    build: ./images/pgadmin4
+#    container_name: pgadmin4
+#    hostname: pgadmin4
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: hunzsig
+#      PGADMIN_DEFAULT_PASSWORD: 123456
+#    ports:
+#      - ${PGSQL_ADMIN4_PORT}:80
+#    networks:
+#      web:
+#        ipv4_address: ${NETWORK_PGSQL_ADMIN4}
 
-
-  nginx:
+  mongo-master: &mongo-master
     restart: always
-    build: ./images/nginx
-    container_name: nginx
-    hostname: nginx
-    ports:
-      - 8080:80
-      - 2001:2001
-      - 3001:3001
-      - 3002:3002
-    volumes:
-      - ${DOCKER_ENV_PWD}/etc/nginx:/etc/nginx
-      - ${DOCKER_ENV_PWD}/etc/nginx/log:/var/log/nginx
-      - ${WORKPLACE_PWD}:/var/www
-    networks:
-      web:
-        ipv4_address: ${NETWORK_NGINX}
-
-
-  redis:
-    restart: always
-    build: ./images/redis
-    container_name: redis
-    hostname: redis
-    ports:
-      - ${REDIS_PORT}:6379
-    networks:
-      web:
-        ipv4_address: ${NETWORK_REDIS}
-
-  rabbitmq:
-    restart: always
-    build: ./images/rabbitmq
-    container_name: rabbitmq
-    hostname: rabbitmq
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PWD}
-    ports:
-      - ${RABBITMQ_PORT}:5672
-      - 1${RABBITMQ_PORT}:15672
-    networks:
-      web:
-        ipv4_address: ${NETWORK_RABBITMQ}
-
-  mysql-master: &mysql-master
-    restart: always
-    build: ./images/mysql
-    container_name: mysql-master
-    hostname: mysql-master
-    environment:
-      - TZ=Asia/Shanghai
-      - MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
-    ports:
-      - ${MYSQL_MASTER_PORT}:3306
-    expose:
-      - ${MYSQL_MASTER_PORT}
-    volumes:
-      - ${DOCKER_ENV_PWD}/etc/mysql/master/data:/var/lib/mysql
-    command: [
-      "--log-bin=mysql-bin",
-      "--server-id=${MYSQL_MASTER_SERVER_ID}",
-      "--binlog-ignore-db=mysql",
-      "--character-set-server=utf8mb4",
-      "--collation-server=utf8mb4_unicode_ci",
-      "--innodb_flush_log_at_trx_commit=1",
-      "--default_authentication_plugin=mysql_native_password",
-      "--sync_binlog=1",
-    ]
-    networks:
-      web:
-        ipv4_address: ${NETWORK_MYSQL_MASTER}
-  mysql-slave-1: &mysql-slave-1
-    <<: *mysql-master
-    restart: always
-    build: ./images/mysql
-    container_name: mysql-slave-1
-    hostname: mysql-slave-1
-    environment:
-      - TZ=Asia/Shanghai
-      - MYSQL_ROOT_PASSWORD=${MYSQL_SLAVE_1_ROOT_PWD}
-      - MASTER_MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PWD}
-    ports:
-      - ${MYSQL_SLAVE_1_PORT}:3306
-    depends_on:
-      - mysql-master
-    volumes:
-      - ${DOCKER_ENV_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
-    command: [
-      "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
-      "--character-set-server=utf8mb4",
-      "--collation-server=utf8mb4_unicode_ci",
-      "--default_authentication_plugin=mysql_native_password",
-    ]
-    networks:
-      web:
-        ipv4_address: ${NETWORK_MYSQL_SLAVE_1}
-
-  pgsql-master: &pgsql-master
-    restart: always
-    build: ./images/pgsql
-    container_name: pgsql-master
-    hostname: pgsql-master
-    privileged: true
-    user: root
-    environment:
-      POSTGRES_USER: ${PGSQL_MASTER_USER}
-      POSTGRES_PASSWORD: ${PGSQL_MASTER_PWD}
-    ports:
-      - ${PGSQL_MASTER_PORT}:5432
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      # - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
-      # - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PGSQL_MASTER}
-
-  pgadmin4:
-    restart: always
-    build: ./images/pgadmin4
-    container_name: pgadmin4
-    hostname: pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: hunzsig
-      PGADMIN_DEFAULT_PASSWORD: 123456
-    ports:
-      - ${PGSQL_ADMIN4_PORT}:80
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PGSQL_ADMIN4}
-
-  mongo-master:
     build: ./images/mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_MASTER_USER}
@@ -211,15 +212,13 @@ services:
     ports:
       - ${MONGO_MASTER_PORT}:27017
     volumes:
+      - mongo_master_data:/data/db
       - ${DOCKER_ENV_PWD}/etc/mongodb/master/mongo.conf:/etc/mongo.conf
-      - ${DOCKER_ENV_PWD}/etc/mongodb/master/data:/data/db
-      - ${DOCKER_ENV_PWD}/etc/mongodb/master/access.key:/etc/access.key
       - ${DOCKER_ENV_PWD}/etc/mongodb/master/log:/log
-    command: mongod -f /etc/mongo.conf
     networks:
       web:
         ipv4_address: ${NETWORK_MONGO_MASTER}
 
 volumes:
-  postgres_data:
-    external: true
+  postgres_master_data:
+  mongo_master_data:

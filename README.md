@@ -6,6 +6,7 @@ docker-compose build
 docker-compose up
 ```
 
+
 mysql主从
  * master
 ```
@@ -35,10 +36,4 @@ mysql主从
 # 开启
     START SLAVE;
     SHOW SLAVE STATUS;
-```
-
-postgres:
-```
-需要创建一个卷来解决pg的目录权限问题
-docker volume create --name postgres_data
 ```
