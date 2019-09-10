@@ -1,5 +1,5 @@
 
-FROM kibana:7.3.1
+FROM kibana:6.8.3
 
 
 # 镜像信息
