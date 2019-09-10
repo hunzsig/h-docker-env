@@ -83,7 +83,7 @@ services:
       - 3002:3002
     volumes:
       - ${DOCKER_ENV_PWD}/etc/nginx:/etc/nginx
-      - ${DOCKER_ENV_PWD}/log/nginx:/var/log/nginx
+      - ${DOCKER_ENV_PWD}/etc/nginx/log:/var/log/nginx
       - ${WORKPLACE_PWD}:/var/www
     networks:
       web:
@@ -211,9 +211,10 @@ services:
     ports:
       - ${MONGO_MASTER_PORT}:27017
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/mongodb/master/data:/data/db
       - ${DOCKER_ENV_PWD}/etc/mongodb/master/mongo.conf:/etc/mongo.conf
+      - ${DOCKER_ENV_PWD}/etc/mongodb/master/data:/data/db
       - ${DOCKER_ENV_PWD}/etc/mongodb/master/access.key:/etc/access.key
+      - ${DOCKER_ENV_PWD}/etc/mongodb/master/log:/log
     command: mongod -f /etc/mongo.conf
     networks:
       web:
