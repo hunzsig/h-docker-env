@@ -1,5 +1,5 @@
 
-FROM apm-server:7.3.1
+FROM store/elastic/apm-server:7.3.1
 
 
 # 镜像信息
