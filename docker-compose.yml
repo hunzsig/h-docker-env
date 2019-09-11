@@ -244,46 +244,50 @@ services:
       web:
         ipv4_address: ${NETWORK_MONGO_SLAVE_1}
 
-#  elasticsearch:
-#    restart: always
-#    build: ./images/elasticsearch
-#    ports:
-#      - ${PORT_ELASTICSEARCH1}:9200
-#      - ${PORT_ELASTICSEARCH2}:9300
-#    volumes:
-#      - elasticsearch_data:/usr/share/elasticsearch/data
-#    environment:
-#      - cluster.name=hunzsig_cluster
-#      - bootstrap.memory_lock=true
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#      nofile:
-#        soft: 65536
-#        hard: 65536
-#    networks:
-#      web:
-#        ipv4_address: ${NETWORK_ELASTICSEARCH}
+  elasticsearch:
+    restart: always
+    build: ./images/elasticsearch
+    ports:
+      - ${PORT_ELASTICSEARCH1}:9200
+      - ${PORT_ELASTICSEARCH2}:9300
+    environment:
+      - cluster.name=hunzsig_cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    networks:
+      web:
+        ipv4_address: ${NETWORK_ELASTICSEARCH}
 
-#  kibana:
-#    build: ./images/kibana
-#    ports:
-#      - ${PORT_KIBANA}:5601
-#    depends_on:
-#      - elasticsearch
-#
-#  apm-server:
-#    build: ./images/apm-server
-#    ports:
-#      - ${PORT_APM_SERVER}:8200
-#    depends_on:
-#      - elasticsearch
-#      - kibana
+  kibana:
+    build: ./images/kibana
+    ports:
+      - ${PORT_KIBANA}:5601
+    depends_on:
+      - elasticsearch
+    networks:
+      web:
+        ipv4_address: ${NETWORK_KIBANA}
+
+  apm-server:
+    build: ./images/apm-server
+    ports:
+      - ${PORT_APM_SERVER}:8200
+    depends_on:
+      - elasticsearch
+      - kibana
+    networks:
+      web:
+        ipv4_address: ${NETWORK_APM_SERVER}
+
 
 volumes:
   postgres_master_data:
   mongo_master_data:
   mongo_slave_1_data:
-  elasticsearch_data:
