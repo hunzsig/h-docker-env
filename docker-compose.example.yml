@@ -98,7 +98,7 @@ services:
     ports:
       - ${PORT_REDIS}:6379
     volumes:
-      - ${WORKPLACE_PWD}/etc/redis/data:/data
+      - ${DOCKER_ENV_PWD}/etc/redis/data:/data
     networks:
       web:
         ipv4_address: ${NETWORK_REDIS}
