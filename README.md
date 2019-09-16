@@ -1,5 +1,32 @@
 # h-docker-env
 
+涵盖
+```
+php（5.6 - 7.3）
+    bz2 bcmath gd xmlrpc sockets mysqli pgsql 
+    pdo_mysql pdo_pgsql pdo_sqlite igbinary redis 
+    lzf mongo mongodb amqp swoole
+
+nginx（latest）
+
+redis（latest）
+
+rabbitmq（3.8-rc-management）
+
+mysql（8.0）
+    master-slave
+
+pgsql（10.10）
+    pgadmin4
+    
+mongo（4.2）
+    master-slave
+
+elasticsearch（6.8.3）
+    kibana（6.8.3）
+    apm-server（6.8.3）
+```
+
 流程
 ```
 docker-compose build
