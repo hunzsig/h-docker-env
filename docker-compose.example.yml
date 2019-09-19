@@ -70,6 +70,17 @@ services:
       web:
         ipv4_address: ${NETWORK_PHP_73}
 
+  golang:
+    restart: always
+    build: ./images/golang
+    container_name: golang
+    hostname: golang
+    tty: true
+    volumes:
+      - ${DOCKER_ENV_PWD}/etc/go:/go
+    networks:
+      web:
+        ipv4_address: ${NETWORK_GOLANG}
 
   nginx:
     restart: always
