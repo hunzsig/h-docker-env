@@ -35,6 +35,7 @@ RUN docker-php-ext-install pgsql
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pdo_sqlite
+RUN docker-php-ext-install zip
 
 RUN pecl install http://pecl.php.net/get/igbinary-3.0.1.tgz
 RUN pecl install http://pecl.php.net/get/redis-5.0.2.tgz
@@ -44,7 +45,7 @@ RUN pecl install http://pecl.php.net/get/amqp-1.9.4.tgz
 RUN pecl install http://pecl.php.net/get/swoole-4.4.5.tgz
 
 RUN docker-php-ext-enable \
-    bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite \
+    bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite zip \
     igbinary redis lzf mongodb amqp swoole
 
 # 镜像信息
