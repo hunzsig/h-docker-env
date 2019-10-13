@@ -45,9 +45,8 @@ RUN pecl install http://pecl.php.net/get/mongodb-1.5.3.tgz
 RUN pecl install http://pecl.php.net/get/amqp-1.6.0.tgz
 RUN pecl install http://pecl.php.net/get/swoole-2.0.11.tgz
 
-RUN docker-php-ext-enable \
-    bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite zip \
-    igbinary redis lzf mongo mongodb amqp swoole
+RUN docker-php-ext-enable bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite zip
+RUN docker-php-ext-enable igbinary redis lzf mongo mongodb amqp swoole
 
 # 镜像信息
 LABEL Author="hunzsig"

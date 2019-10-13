@@ -35,6 +35,7 @@ RUN docker-php-ext-install pgsql
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pdo_sqlite
+RUN docker-php-ext-install zip
 
 RUN pecl install http://pecl.php.net/get/igbinary-3.0.1.tgz
 RUN pecl install http://pecl.php.net/get/redis-5.0.2.tgz
