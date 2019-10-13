@@ -23,7 +23,7 @@ RUN apt-get -y install \
     libxml2-dev \
     libsqlite3-dev \
     librabbitmq-dev
-
+RUN apt-get install -y zip libzip-dev && docker-php-ext-configure zip --with-libzip && docker-php-ext-install zip
 
 RUN docker-php-ext-install bz2
 RUN docker-php-ext-install bcmath
