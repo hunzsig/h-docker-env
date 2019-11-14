@@ -70,18 +70,6 @@ services:
       web:
         ipv4_address: ${NETWORK_PHP_73}
 
-  golang:
-    restart: always
-    build: ./images/golang
-    container_name: golang
-    hostname: golang
-    tty: true
-    volumes:
-      - ${DOCKER_ENV_PWD}/etc/go:/go
-    networks:
-      web:
-        ipv4_address: ${NETWORK_GOLANG}
-
   nginx:
     restart: always
     build: ./images/nginx
@@ -89,9 +77,6 @@ services:
     hostname: nginx
     ports:
       - 80:80
-      - 2001:2001
-      - 3001:3001
-      - 3002:3002
     volumes:
       - ${DOCKER_ENV_PWD}/etc/nginx:/etc/nginx
       - ${DOCKER_ENV_PWD}/etc/nginx/log:/var/log/nginx
@@ -197,26 +182,11 @@ services:
       - ${PORT_PGSQL_MASTER}:5432
     volumes:
       - postgres_master_data:/var/lib/postgresql/data
-      # - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
-      # - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
+      - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     networks:
       web:
         ipv4_address: ${NETWORK_PGSQL_MASTER}
-
-  pgadmin4:
-    restart: always
-    build: ./images/pgadmin4
-    container_name: pgadmin4
-    hostname: pgadmin4
-    environment:
-      TZ: Asia/Shanghai
-      PGADMIN_DEFAULT_EMAIL: hunzsig
-      PGADMIN_DEFAULT_PASSWORD: 123456
-    ports:
-      - ${PORT_PGSQL_ADMIN4}:80
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PGSQL_ADMIN4}
 
   mongo-master: &mongo-master
     restart: always
@@ -254,49 +224,6 @@ services:
     networks:
       web:
         ipv4_address: ${NETWORK_MONGO_SLAVE_1}
-
-  elasticsearch:
-    restart: always
-    build: ./images/elasticsearch
-    ports:
-      - ${PORT_ELASTICSEARCH1}:9200
-      - ${PORT_ELASTICSEARCH2}:9300
-    environment:
-      - cluster.name=hunzsig_cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    networks:
-      web:
-        ipv4_address: ${NETWORK_ELASTICSEARCH}
-
-  kibana:
-    build: ./images/kibana
-    ports:
-      - ${PORT_KIBANA}:5601
-    depends_on:
-      - elasticsearch
-    networks:
-      web:
-        ipv4_address: ${NETWORK_KIBANA}
-
-  apm-server:
-    build: ./images/apm-server
-    ports:
-      - ${PORT_APM_SERVER}:8200
-    depends_on:
-      - elasticsearch
-      - kibana
-    networks:
-      web:
-        ipv4_address: ${NETWORK_APM_SERVER}
-
 
 volumes:
   postgres_master_data:
