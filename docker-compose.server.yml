@@ -181,9 +181,8 @@ services:
     ports:
       - ${PORT_PGSQL_MASTER}:5432
     volumes:
-      - postgres_master_data:/var/lib/postgresql/data
+      #- postgres_master_data:/var/lib/postgresql/data
       - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
-      - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     networks:
       web:
         ipv4_address: ${NETWORK_PGSQL_MASTER}
@@ -198,7 +197,7 @@ services:
     ports:
       - ${PORT_MONGO_MASTER}:27017
     volumes:
-      - mongo_master_data:/data/db
+      - ${DOCKER_ENV_PWD}/etc/mongo/master/data:/data/db
       - ${DOCKER_ENV_PWD}/etc/mongo/master/mongo.conf:/etc/mongo.conf
       - ${DOCKER_ENV_PWD}/etc/mongo/master/log:/log
     networks:
@@ -218,14 +217,14 @@ services:
     ports:
       - ${PORT_MONGO_SLAVE_1}:27017
     volumes:
-      - mongo_slave_1_data:/data/db
+      - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/data:/data/db
       - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/mongo.conf:/etc/mongo.conf
       - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/log:/log
     networks:
       web:
         ipv4_address: ${NETWORK_MONGO_SLAVE_1}
 
-volumes:
-  postgres_master_data:
-  mongo_master_data:
-  mongo_slave_1_data:
+#volumes:
+#  postgres_master_data:
+#  mongo_master_data:
+#  mongo_slave_1_data:
