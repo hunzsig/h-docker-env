@@ -18,6 +18,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-5.6.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_56}
@@ -30,6 +31,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-7.0.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_70}
@@ -42,6 +44,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-7.1.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_71}
@@ -54,6 +57,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-7.2.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_72}
@@ -66,6 +70,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-7.3.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_73}
