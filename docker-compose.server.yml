@@ -18,6 +18,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-5.6.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_56}
@@ -30,6 +31,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-7.0.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_70}
@@ -42,6 +44,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-7.1.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_71}
@@ -54,6 +57,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-7.2.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_72}
@@ -66,21 +70,10 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
+      - ${DOCKER_ENV_PWD}/etc/php/php-7.3.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_73}
-
-  golang:
-    restart: always
-    build: ./images/golang
-    container_name: golang
-    hostname: golang
-    tty: true
-    volumes:
-      - ${DOCKER_ENV_PWD}/etc/go:/go
-    networks:
-      web:
-        ipv4_address: ${NETWORK_GOLANG}
 
   nginx:
     restart: always
@@ -88,10 +81,7 @@ services:
     container_name: nginx
     hostname: nginx
     ports:
-      - 8080:80
-      - 2001:2001
-      - 3001:3001
-      - 3002:3002
+      - 80:80
     volumes:
       - ${DOCKER_ENV_PWD}/etc/nginx:/etc/nginx
       - ${DOCKER_ENV_PWD}/etc/nginx/log:/var/log/nginx
@@ -196,27 +186,11 @@ services:
     ports:
       - ${PORT_PGSQL_MASTER}:5432
     volumes:
-      - postgres_master_data:/var/lib/postgresql/data
-      # - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
-      # - ${DOCKER_ENV_PWD}/etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      #- postgres_master_data:/var/lib/postgresql/data
+      - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
     networks:
       web:
         ipv4_address: ${NETWORK_PGSQL_MASTER}
-
-  pgadmin4:
-    restart: always
-    build: ./images/pgadmin4
-    container_name: pgadmin4
-    hostname: pgadmin4
-    environment:
-      TZ: Asia/Shanghai
-      PGADMIN_DEFAULT_EMAIL: hunzsig
-      PGADMIN_DEFAULT_PASSWORD: 123456
-    ports:
-      - ${PORT_PGSQL_ADMIN4}:80
-    networks:
-      web:
-        ipv4_address: ${NETWORK_PGSQL_ADMIN4}
 
   mongo-master: &mongo-master
     restart: always
@@ -228,7 +202,7 @@ services:
     ports:
       - ${PORT_MONGO_MASTER}:27017
     volumes:
-      - mongo_master_data:/data/db
+      - ${DOCKER_ENV_PWD}/etc/mongo/master/data:/data/db
       - ${DOCKER_ENV_PWD}/etc/mongo/master/mongo.conf:/etc/mongo.conf
       - ${DOCKER_ENV_PWD}/etc/mongo/master/log:/log
     networks:
@@ -248,14 +222,14 @@ services:
     ports:
       - ${PORT_MONGO_SLAVE_1}:27017
     volumes:
-      - mongo_slave_1_data:/data/db
+      - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/data:/data/db
       - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/mongo.conf:/etc/mongo.conf
       - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/log:/log
     networks:
       web:
         ipv4_address: ${NETWORK_MONGO_SLAVE_1}
 
-volumes:
-  postgres_master_data:
-  mongo_master_data:
-  mongo_slave_1_data:
+#volumes:
+#  postgres_master_data:
+#  mongo_master_data:
+#  mongo_slave_1_data:
