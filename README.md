@@ -22,9 +22,6 @@ pgsql（10.10）
 mongo（4.2）
     master-slave
 
-elasticsearch（6.8.3）
-    kibana（6.8.3）
-    apm-server（6.8.3）
 ```
 
 流程
