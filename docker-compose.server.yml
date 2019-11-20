@@ -5,7 +5,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: ${NETWORK_WEB}
+        - subnet: ${NETWORK}
 
 services:
 
@@ -18,7 +18,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
-      - ${DOCKER_ENV_PWD}/etc/php/php-5.6.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-5.6.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_56}
@@ -31,7 +31,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
-      - ${DOCKER_ENV_PWD}/etc/php/php-7.0.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.0.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_70}
@@ -44,7 +44,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
-      - ${DOCKER_ENV_PWD}/etc/php/php-7.1.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.1.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_71}
@@ -57,7 +57,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
-      - ${DOCKER_ENV_PWD}/etc/php/php-7.2.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.2.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_72}
@@ -70,7 +70,7 @@ services:
       - 9000
     volumes:
       - ${WORKPLACE_PWD}:/var/www
-      - ${DOCKER_ENV_PWD}/etc/php/php-7.3.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.3.ini:/usr/local/etc/php/php.ini
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_73}
@@ -83,8 +83,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/nginx:/etc/nginx
-      - ${DOCKER_ENV_PWD}/etc/nginx/log:/var/log/nginx
+      - ./etc/nginx:/etc/nginx
+      - ./etc/nginx/log:/var/log/nginx
       - ${WORKPLACE_PWD}:/var/www
     networks:
       web:
@@ -99,7 +99,7 @@ services:
     ports:
       - ${PORT_REDIS}:6379
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/redis/data:/data
+      - ./etc/redis/data:/data
     networks:
       web:
         ipv4_address: ${NETWORK_REDIS}
@@ -132,7 +132,7 @@ services:
     expose:
       - ${PORT_MYSQL_MASTER}
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/mysql/master/data:/var/lib/mysql
+      - ./etc/mysql/master/data:/var/lib/mysql
     command: [
       "--log-bin=mysql-bin",
       "--server-id=${MYSQL_MASTER_SERVER_ID}",
@@ -161,7 +161,7 @@ services:
     depends_on:
       - mysql-master
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/mysql/slave_1/data:/var/lib/mysql
+      - ./etc/mysql/slave_1/data:/var/lib/mysql
     command: [
       "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
       "--character-set-server=utf8mb4",
@@ -187,7 +187,7 @@ services:
       - ${PORT_PGSQL_MASTER}:5432
     volumes:
       #- postgres_master_data:/var/lib/postgresql/data
-      - ${DOCKER_ENV_PWD}/etc/pgsql/master:/var/lib/postgresql/data
+      - ./etc/pgsql/master:/var/lib/postgresql/data
     networks:
       web:
         ipv4_address: ${NETWORK_PGSQL_MASTER}
@@ -202,9 +202,9 @@ services:
     ports:
       - ${PORT_MONGO_MASTER}:27017
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/mongo/master/data:/data/db
-      - ${DOCKER_ENV_PWD}/etc/mongo/master/mongo.conf:/etc/mongo.conf
-      - ${DOCKER_ENV_PWD}/etc/mongo/master/log:/log
+      - ./etc/mongo/master/data:/data/db
+      - ./etc/mongo/master/mongo.conf:/etc/mongo.conf
+      - ./etc/mongo/master/log:/log
     networks:
       web:
         ipv4_address: ${NETWORK_MONGO_MASTER}
@@ -222,9 +222,9 @@ services:
     ports:
       - ${PORT_MONGO_SLAVE_1}:27017
     volumes:
-      - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/data:/data/db
-      - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/mongo.conf:/etc/mongo.conf
-      - ${DOCKER_ENV_PWD}/etc/mongo/slave_1/log:/log
+      - ./etc/mongo/slave_1/data:/data/db
+      - ./etc/mongo/slave_1/mongo.conf:/etc/mongo.conf
+      - ./etc/mongo/slave_1/log:/log
     networks:
       web:
         ipv4_address: ${NETWORK_MONGO_SLAVE_1}
