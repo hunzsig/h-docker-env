@@ -52,7 +52,7 @@ mysql主从
 ```
 # 连接进入 slave  
     CHANGE MASTER TO
-        MASTER_HOST='172.19.0.10',
+        MASTER_HOST='172.19.0.20',
         MASTER_USER='repl',
         MASTER_PASSWORD='hunzsig',
         MASTER_LOG_FILE='mysql-bin.000034',
