@@ -5,25 +5,24 @@ ENV ACCEPT_EULA=Y
 
 RUN sed -i "s@http://deb.debian.org@http://mirrors.aliyun.com@g" /etc/apt/sources.list && rm -Rf /var/lib/apt/lists/* && apt-get update
 
-RUN apt-get -y install \
-    apt-utils \
-    default-libmysqlclient-dev \
-    libbz2-dev \
-    libsasl2-dev \
-    libssl-dev \
-    curl \
-    git \
-    libfreetype6-dev \
-    libicu-dev \
-    libjpeg-dev \
-    libmcrypt-dev \
-    libpng-dev \
-    libpq-dev \
-    libc-client-dev \
-    libxml2-dev \
-    libsqlite3-dev \
-    librabbitmq-dev
-
+RUN apt-get -y install apt-utils
+RUN apt-get -y install default-libmysqlclient-dev
+RUN apt-get -y install libbz2-dev
+RUN apt-get -y install libsasl2-dev
+RUN apt-get -y install libssl-dev
+RUN apt-get -y install curl
+RUN apt-get -y install git
+RUN apt-get -y install libfreetype6-dev
+RUN apt-get -y install libicu-dev
+RUN apt-get -y install libjpeg-dev
+RUN apt-get -y install libmcrypt-dev
+RUN apt-get -y install libpng-dev
+RUN apt-get -y install libpq-dev
+RUN apt-get -y install libc-client-dev
+RUN apt-get -y install libxml2-dev
+RUN apt-get -y install libsqlite3-dev
+RUN apt-get -y install librabbitmq-dev
+RUN apt-get -y install librdkafka-dev
 
 RUN docker-php-ext-install bz2
 RUN docker-php-ext-install bcmath
@@ -43,11 +42,12 @@ RUN pecl install http://pecl.php.net/get/LZF-1.6.6.tgz
 RUN pecl install http://pecl.php.net/get/mongodb-1.5.3.tgz
 RUN pecl install http://pecl.php.net/get/amqp-1.9.3.tgz
 RUN pecl install http://pecl.php.net/get/swoole-4.3.5.tgz
+RUN pecl install http://pecl.php.net/get/rdkafka-3.1.3.tgz
 
 RUN docker-php-ext-enable bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite zip
-RUN docker-php-ext-enable igbinary redis lzf mongodb amqp swoole
+RUN docker-php-ext-enable igbinary redis lzf mongodb amqp swoole rdkafka
 
 # 镜像信息
 LABEL Author="hunzsig"
-LABEL Version="2019.9"
+LABEL Version="2020.03"
 LABEL Description="php70 by hunzsig"
