@@ -37,12 +37,12 @@ RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pdo_sqlite
 RUN docker-php-ext-install zip
 
-RUN pecl install http://pecl.php.net/get/igbinary-3.1.1.tgz
-RUN pecl install http://pecl.php.net/get/redis-5.1.1.tgz
+RUN pecl install http://pecl.php.net/get/igbinary-3.1.2.tgz
+RUN pecl install http://pecl.php.net/get/redis-5.2.0.tgz
 RUN pecl install http://pecl.php.net/get/LZF-1.6.7.tgz
-RUN pecl install http://pecl.php.net/get/mongodb-1.6.1.tgz
+RUN pecl install http://pecl.php.net/get/mongodb-1.7.3.tgz
 RUN pecl install http://pecl.php.net/get/amqp-1.9.4.tgz
-RUN pecl install http://pecl.php.net/get/swoole-4.4.15.tgz
+RUN pecl install http://pecl.php.net/get/swoole-4.4.16.tgz
 
 RUN docker-php-ext-enable \
     bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite \
@@ -50,5 +50,5 @@ RUN docker-php-ext-enable \
 
 # 镜像信息
 LABEL Author="hunzsig"
-LABEL Version="2019.12"
+LABEL Version="2020.03"
 LABEL Description="php74 by hunzsig"

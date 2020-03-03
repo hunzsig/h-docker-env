@@ -42,7 +42,7 @@ RUN pecl install http://pecl.php.net/get/redis-5.1.1.tgz
 RUN pecl install http://pecl.php.net/get/LZF-1.6.7.tgz
 RUN pecl install http://pecl.php.net/get/mongodb-1.6.0.tgz
 RUN pecl install http://pecl.php.net/get/amqp-1.9.4.tgz
-RUN pecl install http://pecl.php.net/get/swoole-4.4.15.tgz
+RUN pecl install http://pecl.php.net/get/swoole-4.4.16.tgz
 
 RUN docker-php-ext-enable bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite zip
 RUN docker-php-ext-enable igbinary redis lzf mongodb amqp swoole
