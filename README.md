@@ -59,3 +59,14 @@ mysql主从
 ```
 
 mongo集群
+```
+进入其中一个容器：docker exec -it de242cc5fa5a bash
+连接三个节点中的任意一个：mongo -u hunzsig -p 123456
+rs.initiate({
+  _id:"rs",
+  members:[
+    {_id:0,host:"172.19.0.41:27017"},
+    {_id:1,host:"172.19.0.42:27017"},
+    {_id:2,host:"172.19.0.43:27017"}
+]})
+```
