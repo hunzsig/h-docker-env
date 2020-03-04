@@ -5,7 +5,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: ${NETWORK_WEB}
+        - subnet: ${NETWORK}
 
 services:
 
@@ -74,31 +74,6 @@ services:
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_73}
-#  php-7.4:
-#    restart: always
-#    build: ./images/php-7.4
-#    container_name: php-7.4
-#    hostname: php-7.4
-#    ports:
-#      - 9000
-#    volumes:
-#      - ${WORKPLACE_PWD}:/var/www
-#      - ./etc/php/php-7.4.ini:/usr/local/etc/php/php.ini
-#    networks:
-#      web:
-#        ipv4_address: ${NETWORK_PHP_74}
-
-  golang:
-    restart: always
-    build: ./images/golang
-    container_name: golang
-    hostname: golang
-    tty: true
-    volumes:
-      - ./etc/go:/go
-    networks:
-      web:
-        ipv4_address: ${NETWORK_GOLANG}
 
   nginx:
     restart: always
@@ -110,6 +85,7 @@ services:
       - 2001:2001
       - 3001:3001
       - 3002:3002
+      - 4001:4001
     volumes:
       - ./etc/nginx:/etc/nginx
       - ./etc/nginx/log:/var/log/nginx
@@ -219,8 +195,7 @@ services:
       - ${PORT_PGSQL_MASTER}:5432
     volumes:
       - postgres_master_data:/var/lib/postgresql/data
-      # - ./etc/pgsql/master:/var/lib/postgresql/data
-      # - ./etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      # - ./etc/pgsql/master/data:/var/lib/postgresql/data
     networks:
       web:
         ipv4_address: ${NETWORK_PGSQL_MASTER}

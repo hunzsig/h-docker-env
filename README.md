@@ -30,9 +30,7 @@ docker-compose build
 docker-compose up
 ```
 
-
 mysql主从
- * master
 ```
 # 连接进入 master
 # 创建一个用于同步的账号
@@ -47,9 +45,6 @@ mysql主从
 #   mysql-bin.000034 / 1864
 # 解锁表
     UNLOCK TABLES;
-```
- * slave
-```
 # 连接进入 slave  
     CHANGE MASTER TO
         MASTER_HOST='172.19.0.20',
@@ -62,3 +57,5 @@ mysql主从
     START SLAVE;
     SHOW SLAVE STATUS;
 ```
+
+mongo集群

@@ -146,6 +146,8 @@ services:
       - ${PORT_MYSQL_MASTER}
     volumes:
       - ./etc/mysql/master/data:/var/lib/mysql
+      - ./etc/mysql/master/logs:/var/log/mysql
+      - ./etc/mysql/master/conf.d:/etc/mysql/conf.d
     command: [
       "--log-bin=mysql-bin",
       "--server-id=${MYSQL_MASTER_SERVER_ID}",
@@ -175,6 +177,8 @@ services:
       - mysql-master
     volumes:
       - ./etc/mysql/slave_1/data:/var/lib/mysql
+      - ./etc/mysql/slave_1/logs:/var/log/mysql
+      - ./etc/mysql/slave_1/conf.d:/etc/mysql/conf.d
     command: [
       "--server-id=${MYSQL_SLAVE_1_SERVER_ID}",
       "--character-set-server=utf8mb4",
