@@ -1,3 +1,5 @@
 .idea/*
 .env
 docker-compose.yml
+etc/mysql/master/logs/error.log
+etc/mysql/slave_1/logs/error.log

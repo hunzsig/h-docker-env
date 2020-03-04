@@ -40,8 +40,8 @@ mysql主从
     GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';
     FLUSH PRIVILEGES;
 # 锁表搞事
-    FLUSH TABLES WITH READ LOCK;
 # 获取二进制日志的信息
+    FLUSH TABLES WITH READ LOCK;
     SHOW MASTER STATUS;
 # 记住 FILE / POSITION，如：
 #   mysql-bin.000034 / 1864
@@ -53,6 +53,7 @@ mysql主从
 # 连接进入 slave  
     CHANGE MASTER TO
         MASTER_HOST='172.19.0.20',
+        MASTER_PORT=3306,
         MASTER_USER='repl',
         MASTER_PASSWORD='hunzsig',
         MASTER_LOG_FILE='mysql-bin.000034',
