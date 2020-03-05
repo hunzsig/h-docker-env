@@ -226,11 +226,11 @@ services:
       - ${PORT_MONGO_RS_1}:27017
     volumes:
       - mongo_rs1_data:/data/db
-      # - ./etc/mongo/mongodb.key:/data/mongodb.key #window不可用
       - ./etc/mongo/rs1/mongo.conf:/etc/mongo.conf
       - ./etc/mongo/rs1/log:/var/log/mongodb
     command: [
       "--replSet=rs",
+      "--keyFile=/data/mongodb.key",
     ]
     networks:
       web:
@@ -250,11 +250,11 @@ services:
       - ${PORT_MONGO_RS_2}:27017
     volumes:
       - mongo_rs2_data:/data/db
-      # - ./etc/mongo/mongodb.key:/data/mongodb.key #window不可用
       - ./etc/mongo/rs2/mongo.conf:/etc/mongo.conf
       - ./etc/mongo/rs2/log:/log
     command: [
       "--replSet=rs",
+      "--keyFile=/data/mongodb.key",
     ]
     networks:
       web:
@@ -274,11 +274,11 @@ services:
       - ${PORT_MONGO_RS_3}:27017
     volumes:
       - mongo_rs3_data:/data/db
-      # - ./etc/mongo/mongodb.key:/data/mongodb.key #window不可用
       - ./etc/mongo/rs3/mongo.conf:/etc/mongo.conf
       - ./etc/mongo/rs3/log:/log
     command: [
       "--replSet=rs",
+      "--keyFile=/data/mongodb.key",
     ]
     networks:
       web:
@@ -291,3 +291,6 @@ volumes:
   mongo_rs1_data:
   mongo_rs2_data:
   mongo_rs3_data:
+  mongo_rs1_key:
+  mongo_rs2_key:
+  mongo_rs3_key:
