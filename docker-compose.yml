@@ -175,6 +175,7 @@ services:
       "--character-set-server=utf8mb4",
       "--collation-server=utf8mb4_unicode_ci",
       "--default_authentication_plugin=mysql_native_password",
+      "--read-only=1",
     ]
     networks:
       web:
@@ -284,7 +285,7 @@ services:
       web:
         ipv4_address: ${NETWORK_MONGO_RS_3}
 
-  
+
 
 volumes:
   postgres_master_data:
