@@ -68,4 +68,12 @@ rs.initiate({
     {_id:1,host:"172.19.0.42:27017"},
     {_id:2,host:"172.19.0.43:27017"}
 ]})
+然后就可以创建你的项目数据库和它的管理员
+use mydb
+db.createUser( {user: "hunzsig",pwd: "123456",roles: [ { role: "readWrite", db: "mydb" } ]})
+```
+
+mongo创建数据库
+```
+
 ```
