@@ -292,6 +292,3 @@ volumes:
   mongo_rs1_data:
   mongo_rs2_data:
   mongo_rs3_data:
-  mongo_rs1_key:
-  mongo_rs2_key:
-  mongo_rs3_key:
