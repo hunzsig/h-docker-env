@@ -27,3 +27,6 @@
 # http://dev.mysql.com/doc/mysql/en/server-system-variables.html
 
 [mysql]
+
+[mysqld]
+slave-skip-errors=1062,1053,1146 #跳过指定error no类型的错误
