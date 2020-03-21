@@ -3,7 +3,9 @@ FROM php:7.1-fpm
 
 ENV ACCEPT_EULA=Y
 
-RUN sed -i "s@http://deb.debian.org@http://mirrors.aliyun.com@g" /etc/apt/sources.list && rm -Rf /var/lib/apt/lists/* && apt-get update
+RUN sed -i "s@http://deb.debian.org@http://mirrors.aliyun.com@g" /etc/apt/sources.list
+RUN rm -Rf /var/lib/apt/lists/*
+RUN apt-get update
 
 RUN apt-get -y install apt-utils
 RUN apt-get -y install default-libmysqlclient-dev
