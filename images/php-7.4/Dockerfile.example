@@ -39,7 +39,6 @@ RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pdo_sqlite
 RUN docker-php-ext-install zip
 
-RUN pecl install http://pecl.php.net/get/LZF-1.6.6.tgz
 RUN pecl install http://pecl.php.net/get/igbinary-3.1.2.tgz
 RUN pecl install http://pecl.php.net/get/redis-5.2.1.tgz
 RUN pecl install http://pecl.php.net/get/LZF-1.6.7.tgz
