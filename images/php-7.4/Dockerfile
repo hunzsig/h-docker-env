@@ -40,9 +40,9 @@ RUN docker-php-ext-install pdo_sqlite
 RUN docker-php-ext-install zip
 
 RUN pecl install http://pecl.php.net/get/igbinary-3.1.2.tgz
-RUN pecl install http://pecl.php.net/get/redis-5.2.0.tgz
+RUN pecl install http://pecl.php.net/get/redis-5.2.1.tgz
 RUN pecl install http://pecl.php.net/get/LZF-1.6.7.tgz
-RUN pecl install http://pecl.php.net/get/mongodb-1.7.3.tgz
+RUN pecl install http://pecl.php.net/get/mongodb-1.7.4.tgz
 RUN pecl install http://pecl.php.net/get/swoole-4.4.16.tgz
 RUN pecl install http://pecl.php.net/get/rdkafka-4.0.3.tgz
 # RUN pecl install http://pecl.php.net/get/amqp-1.9.4.tgz
