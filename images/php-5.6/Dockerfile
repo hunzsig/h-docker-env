@@ -43,7 +43,7 @@ RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/igbinary-2.0.7.tgz
 RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/redis-2.2.8.tgz
 RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/LZF-1.6.6.tgz
 RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/mongo-1.6.16.tgz
-RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/mongodb-1.5.3.tgz
+RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/mongodb-1.4.4.tgz
 RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/amqp-1.6.0.tgz
 RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/swoole-2.0.11.tgz
 RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/rdkafka-3.1.3.tgz
