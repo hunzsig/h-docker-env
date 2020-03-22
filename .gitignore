@@ -2,3 +2,4 @@
 .env
 etc/mysql/master/logs/error.log
 etc/mysql/slave_1/logs/error.log
+images/php-*/Dockerfile
