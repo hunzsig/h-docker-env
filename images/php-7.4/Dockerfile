@@ -43,12 +43,12 @@ RUN pecl install http://pecl.php.net/get/igbinary-3.1.2.tgz
 RUN pecl install http://pecl.php.net/get/redis-5.2.0.tgz
 RUN pecl install http://pecl.php.net/get/LZF-1.6.7.tgz
 RUN pecl install http://pecl.php.net/get/mongodb-1.7.3.tgz
-RUN pecl install http://pecl.php.net/get/amqp-1.9.4.tgz
 RUN pecl install http://pecl.php.net/get/swoole-4.4.16.tgz
 RUN pecl install http://pecl.php.net/get/rdkafka-4.0.3.tgz
+# RUN pecl install http://pecl.php.net/get/amqp-1.9.4.tgz
 
 RUN docker-php-ext-enable bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite zip
-RUN docker-php-ext-enable igbinary redis lzf mongodb amqp swoole rdkafka
+RUN docker-php-ext-enable igbinary redis lzf mongodb swoole rdkafka #amqp
 
 # 镜像信息
 LABEL Author="hunzsig"
