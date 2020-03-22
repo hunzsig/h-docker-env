@@ -38,13 +38,13 @@ RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pdo_sqlite
 RUN docker-php-ext-install zip
 
-RUN pecl install http://pecl.php.net/get/igbinary-2.0.8.tgz
-RUN pecl install http://pecl.php.net/get/redis-4.2.0.tgz
-RUN pecl install http://pecl.php.net/get/LZF-1.6.6.tgz
-RUN pecl install http://pecl.php.net/get/mongodb-1.5.3.tgz
-RUN pecl install http://pecl.php.net/get/amqp-1.9.3.tgz
-RUN pecl install http://pecl.php.net/get/swoole-4.3.5.tgz
-RUN pecl install http://pecl.php.net/get/rdkafka-3.1.3.tgz
+RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/igbinary-2.0.8.tgz
+RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/redis-4.2.0.tgz
+RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/LZF-1.6.6.tgz
+RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/mongodb-1.5.3.tgz
+RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/amqp-1.9.3.tgz
+RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/swoole-4.3.5.tgz
+RUN pecl install https://gitee.com/hunzsig/pecl/raw/master/rdkafka-3.1.3.tgz
 
 RUN docker-php-ext-enable bz2 bcmath gd xmlrpc sockets mysqli pgsql pdo_mysql pdo_pgsql pdo_sqlite zip
 RUN docker-php-ext-enable igbinary redis lzf mongodb amqp swoole rdkafka
