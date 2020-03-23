@@ -72,8 +72,3 @@ rs.initiate({
 use mydb
 db.createUser( {user: "hunzsig",pwd: "123456",roles: [ { role: "readWrite", db: "mydb" } ]})
 ```
-
-mongo创建数据库
-```
-
-```
