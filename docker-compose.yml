@@ -75,18 +75,18 @@ services:
       web:
         ipv4_address: ${NETWORK_PHP_73}
   php-7.4:
-      restart: always
-      build: ./images/php-7.4
-      container_name: php-7.4
-      hostname: php-7.4
-      ports:
-        - 9000
-      volumes:
-        - ${WORKPLACE_PWD}:/var/www
-      #      - ./etc/php/php-7.4.ini:/usr/local/etc/php/php.ini
-      networks:
-        web:
-          ipv4_address: ${NETWORK_PHP_74}
+    restart: always
+    build: ./images/php-7.4
+    container_name: php-7.4
+    hostname: php-7.4
+    ports:
+      - 9000
+    volumes:
+      - ${WORKPLACE_PWD}:/var/www
+      - ./etc/php/php-7.4.ini:/usr/local/etc/php/php.ini
+    networks:
+      web:
+        ipv4_address: ${NETWORK_PHP_74}
 
   nginx:
     restart: always
