@@ -19,6 +19,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-5.6.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-5.6.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_56}
@@ -32,6 +33,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.0.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.0.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_70}
@@ -45,6 +47,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.1.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.1.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_71}
@@ -58,6 +61,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.2.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.2.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_72}
@@ -71,6 +75,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.3.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.3.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_73}
@@ -84,6 +89,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.4.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.4.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_74}
@@ -98,6 +104,7 @@ services:
       - 2001:2001
       - 3001:3001
       - 3002:3002
+      - 3003:3003
       - 4001:4001
     volumes:
       - ./etc/nginx:/etc/nginx
