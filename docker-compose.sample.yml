@@ -5,7 +5,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: ${NETWORK_WEB}
+        - subnet: ${NETWORK}
 
 services:
 
@@ -19,6 +19,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-5.6.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-5.6.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_56}
@@ -32,6 +33,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.0.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.0.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_70}
@@ -45,6 +47,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.1.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.1.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_71}
@@ -58,6 +61,7 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.2.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.2.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_72}
@@ -71,34 +75,24 @@ services:
     volumes:
       - ${WORKPLACE_PWD}:/var/www
       - ./etc/php/php-7.3.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.3.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
         ipv4_address: ${NETWORK_PHP_73}
-#  php-7.4:
-#    restart: always
-#    build: ./images/php-7.4
-#    container_name: php-7.4
-#    hostname: php-7.4
-#    ports:
-#      - 9000
-#    volumes:
-#      - ${WORKPLACE_PWD}:/var/www
-#      - ./etc/php/php-7.4.ini:/usr/local/etc/php/php.ini
-#    networks:
-#      web:
-#        ipv4_address: ${NETWORK_PHP_74}
-
-  golang:
+  php-7.4:
     restart: always
-    build: ./images/golang
-    container_name: golang
-    hostname: golang
-    tty: true
+    build: ./images/php-7.4
+    container_name: php-7.4
+    hostname: php-7.4
+    ports:
+      - 9000
     volumes:
-      - ./etc/go:/go
+      - ${WORKPLACE_PWD}:/var/www
+      - ./etc/php/php-7.4.ini:/usr/local/etc/php/php.ini
+      - ./etc/php/php-7.4.www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       web:
-        ipv4_address: ${NETWORK_GOLANG}
+        ipv4_address: ${NETWORK_PHP_74}
 
   nginx:
     restart: always
@@ -107,9 +101,6 @@ services:
     hostname: nginx
     ports:
       - 80:80
-      - 2001:2001
-      - 3001:3001
-      - 3002:3002
     volumes:
       - ./etc/nginx:/etc/nginx
       - ./etc/nginx/log:/var/log/nginx
@@ -199,6 +190,7 @@ services:
       "--character-set-server=utf8mb4",
       "--collation-server=utf8mb4_unicode_ci",
       "--default_authentication_plugin=mysql_native_password",
+      "--read-only=1",
     ]
     networks:
       web:
@@ -219,8 +211,7 @@ services:
       - ${PORT_PGSQL_MASTER}:5432
     volumes:
       - postgres_master_data:/var/lib/postgresql/data
-      # - ./etc/pgsql/master:/var/lib/postgresql/data
-      # - ./etc/pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      # - ./etc/pgsql/master/data:/var/lib/postgresql/data
     networks:
       web:
         ipv4_address: ${NETWORK_PGSQL_MASTER}
@@ -240,44 +231,79 @@ services:
       web:
         ipv4_address: ${NETWORK_PGSQL_ADMIN4}
 
-  mongo-master: &mongo-master
+  mongo-rs-1: &mongo-rs-1
     restart: always
     build: ./images/mongo
     environment:
       TZ: Asia/Shanghai
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_MASTER_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_MASTER_PWD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_RS_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_RS_PWD}
     ports:
-      - ${PORT_MONGO_MASTER}:27017
+      - ${PORT_MONGO_RS_1}:27017
     volumes:
-      - mongo_master_data:/data/db
-      - ./etc/mongo/master/mongo.conf:/etc/mongo.conf
-      - ./etc/mongo/master/log:/log
+      - mongo_rs1_data:/data/db
+      - ./etc/mongo/rs1/mongo.conf:/etc/mongo.conf
+      - ./etc/mongo/rs1/log:/var/log/mongodb
+    command: [
+      "--replSet=rs",
+      "--keyFile=/data/mongodb.key",
+    ]
     networks:
       web:
-        ipv4_address: ${NETWORK_MONGO_MASTER}
+        ipv4_address: ${NETWORK_MONGO_RS_1}
 
-  mongo-slave-1: &mongo-slave-1
-    <<: *mongo-master
+  mongo-rs-2: &mongo-rs-2
+    <<: *mongo-rs-1
     restart: always
     build: ./images/mongo
     depends_on:
-      - mongo-master
+      - mongo-rs-1
     environment:
       TZ: Asia/Shanghai
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_SLAVE_1_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_SLAVE_1_PWD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_RS_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_RS_PWD}
     ports:
-      - ${PORT_MONGO_SLAVE_1}:27017
+      - ${PORT_MONGO_RS_2}:27017
     volumes:
-      - mongo_slave_1_data:/data/db
-      - ./etc/mongo/slave_1/mongo.conf:/etc/mongo.conf
-      - ./etc/mongo/slave_1/log:/log
+      - mongo_rs2_data:/data/db
+      - ./etc/mongo/rs2/mongo.conf:/etc/mongo.conf
+      - ./etc/mongo/rs2/log:/log
+    command: [
+      "--replSet=rs",
+      "--keyFile=/data/mongodb.key",
+    ]
     networks:
       web:
-        ipv4_address: ${NETWORK_MONGO_SLAVE_1}
+        ipv4_address: ${NETWORK_MONGO_RS_2}
+
+  mongo-rs-3: &mongo-rs-3
+    <<: *mongo-rs-1
+    restart: always
+    build: ./images/mongo
+    depends_on:
+      - mongo-rs-1
+    environment:
+      TZ: Asia/Shanghai
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_RS_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_RS_PWD}
+    ports:
+      - ${PORT_MONGO_RS_3}:27017
+    volumes:
+      - mongo_rs3_data:/data/db
+      - ./etc/mongo/rs3/mongo.conf:/etc/mongo.conf
+      - ./etc/mongo/rs3/log:/log
+    command: [
+      "--replSet=rs",
+      "--keyFile=/data/mongodb.key",
+    ]
+    networks:
+      web:
+        ipv4_address: ${NETWORK_MONGO_RS_3}
+
+
 
 volumes:
   postgres_master_data:
-  mongo_master_data:
-  mongo_slave_1_data:
+  mongo_rs1_data:
+  mongo_rs2_data:
+  mongo_rs3_data:
