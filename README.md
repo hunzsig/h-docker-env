@@ -45,7 +45,8 @@ mysql主从
 #   mysql-bin.000034 / 1864
 # 解锁表
     UNLOCK TABLES;
-# 连接进入 slave  
+# 连接进入 slave
+    STOP SLAVE;
     CHANGE MASTER TO
         MASTER_HOST='172.19.0.20',
         MASTER_PORT=3306,
@@ -56,6 +57,14 @@ mysql主从
 # 开启
     START SLAVE;
     SHOW SLAVE STATUS;
+
+# 救援
+# 根据实际情况调整slave的数据
+STOP SLAVE;
+SET GLOBAL SQL_SLAVE_SKIP_COUNTER=1;
+START SLAVE;
+
+SHOW SLAVE STATUS;
 ```
 
 mongo集群

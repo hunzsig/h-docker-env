@@ -103,9 +103,6 @@ services:
       - 80:80
       - 2001:2001
       - 3001:3001
-      - 3002:3002
-      - 3003:3003
-      - 4001:4001
     volumes:
       - ./etc/nginx:/etc/nginx
       - ./etc/nginx/log:/var/log/nginx
